@@ -231,7 +231,10 @@ class Premailer
         doc = if @options[:html_fragment]
           ::Nokogiri::HTML.fragment(thing, encoding)
         else
-          ::Nokogiri::HTML(thing, nil, encoding) { |c| c.recover }
+          ::Nokogiri::HTML(thing, nil, encoding) do |config|
+            config.recover
+            config.options = ::Nokogiri::XML::ParseOptions::HUGE
+          end
         end
 
         # Fix for removing any CDATA tags from both style and script tags inserted per
