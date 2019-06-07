@@ -226,9 +226,9 @@ class Premailer
           thing = thing.force_encoding(@options[:input_encoding]).encode!
         end
         doc = if @options[:html_fragment]
-          ::Nokogiri::HTML5.fragment(thing)
+          ::Nokogiri::HTML5.fragment(thing, max_tree_depth: -1)
         else
-          ::Nokogiri::HTML5(thing)
+          ::Nokogiri::HTML5.parse(thing, max_tree_depth: -1)
         end
 
         # Fix for removing any CDATA tags from both style and script tags inserted per
